@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Habit Haven</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Text:wght@400;700&display=swap');
+
+        :root {
+            --n-rings: 6;
+            --n-segms: 6;
+            --n-balls: 6;
+            --tan: 0.577
+        }
+
+        body {
+            font-family: 'Red Hat Text', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+
+        }
+
+        p {
+            max-width: 52ch;
+            line-height: 1.5;
+            padding: 1em;
+            font-weight: bold;
+            color: white;
+        }
+
+        h1 {
+            font-size: 5rem;
+        }
+
+        h3 {
+            font-weight: 700;
+            font-size: 1.6rem;
+            margin-top: 1em;
+            color: white;
+        }
+
+        .container {
+            color: white;
+            text-align: center;
+            min-width: 100vw;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: transparent;
+            background-image: url("website_background.png");
+            background-size: cover;
+            background-position: top;
+            background-attachment: fixed;
+        }
+
+        .flex-row {
+            color: black;
+            flex-direction: row;
+            justify-content: center;
+            gap: 1.6em;
+        }
+
+        .first {
+            background-position: center;
+            background-size: unset;
+            background-position-y: top;
+        }
+
+        .second {
+            background-position: center;
+            background-size: unset;
+            background-position-y: center;
+        }
+
+        .third {
+            background-position: center;
+            background-size: unset;
+            background-position-y: bottom;
+        }
+
+        .box {
+            background: linear-gradient(0deg, rgba(91, 1, 36, 1) 0%, rgba(182, 3, 79, 1) 35%, rgba(164, 117, 165, 1) 100%);
+            font-size: 1rem;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+            min-height: 60vh;
+        }
+
+
+        .animated {
+            display: flex;
+            font-size: 3em;
+            font-weight: bold;
+            overflow: hidden;
+            /* Ensures the content is not revealed until the animation */
+            border-right: .1em solid white;
+            /* The typwriter cursor */
+            white-space: nowrap;
+            /* Keeps the content on a single line */
+            margin: 0 auto;
+            /* Gives that scrolling effect as the typing happens */
+            letter-spacing: .1em;
+            /* Adjust as needed */
+            animation:
+                typing 3.5s steps(200, end),
+                blink-caret .75s step-end infinite;
+        }
+
+
+        /* The typing effect */
+        @keyframes typing {
+            from {
+                width: 0
+            }
+
+            to {
+                width: 100%
+            }
+        }
+
+        @keyframes blink-caret {
+
+            from,
+            to {
+                border-color: transparent
+            }
+
+            50% {
+                border-color: white
+            }
+        }
+
+        .item {
+            width: 95%;
+            display: flex;
+            background-color: transparent;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: center;
+            border-radius: 1em;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            -webkit-box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            -moz-box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        img {
+            width: 20%;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-radius: .3em;
+            border: 1.334vh solid #111;
+        }
+
+        .ball {
+            --f: calc(var(--i)/var(--n-rings));
+            --dif: calc(var(--k) - .5*var(--n-balls));
+            --abs: max(var(--dif), -1*var(--dif));
+            grid-area: 1/1;
+            place-self: center;
+            padding: 0.375em;
+            border-radius: 50%;
+            --pos:
+                rotate(calc(var(--j)/var(--n-segms)*1turn)) translate(calc(var(--n-balls)*0.5625em/var(--tan)),
+                    calc(var(--dif)*1.125em));
+            transform: scale(0.5) var(--pos);
+            background: hsl(calc(180 + var(--f)*120), 85%, 65%);
+            mix-blend-mode: screen;
+            animation: a 3s ease-in-out calc((var(--f) + var(--abs)/var(--n-balls) - 2)*3s) infinite alternate;
+        }
+
+        @keyframes a {
+            to {
+                transform: var(--pos);
+            }
+        }
+
+        .ball:nth-of-type(n + 1) {
+            --i: 0
+        }
+
+        .ball:nth-of-type(n + 37) {
+            --i: 1
+        }
+
+        .ball:nth-of-type(n + 73) {
+            --i: 2
+        }
+
+        .ball:nth-of-type(n + 109) {
+            --i: 3
+        }
+
+        .ball:nth-of-type(n + 145) {
+            --i: 4
+        }
+
+        .ball:nth-of-type(n + 181) {
+            --i: 5
+        }
+
+        .ball:nth-of-type(n + 1):nth-of-type(-n + 6),
+        .ball:nth-of-type(n + 37):nth-of-type(-n + 42),
+        .ball:nth-of-type(n + 73):nth-of-type(-n + 78),
+        .ball:nth-of-type(n + 109):nth-of-type(-n + 114),
+        .ball:nth-of-type(n + 145):nth-of-type(-n + 150),
+        .ball:nth-of-type(n + 181):nth-of-type(-n + 186) {
+            --j: 0
+        }
+
+        .ball:nth-of-type(n + 7):nth-of-type(-n + 12),
+        .ball:nth-of-type(n + 43):nth-of-type(-n + 48),
+        .ball:nth-of-type(n + 79):nth-of-type(-n + 84),
+        .ball:nth-of-type(n + 115):nth-of-type(-n + 120),
+        .ball:nth-of-type(n + 151):nth-of-type(-n + 156),
+        .ball:nth-of-type(n + 187):nth-of-type(-n + 192) {
+            --j: 1
+        }
+
+        .ball:nth-of-type(n + 13):nth-of-type(-n + 18),
+        .ball:nth-of-type(n + 49):nth-of-type(-n + 54),
+        .ball:nth-of-type(n + 85):nth-of-type(-n + 90),
+        .ball:nth-of-type(n + 121):nth-of-type(-n + 126),
+        .ball:nth-of-type(n + 157):nth-of-type(-n + 162),
+        .ball:nth-of-type(n + 193):nth-of-type(-n + 198) {
+            --j: 2
+        }
+
+        .ball:nth-of-type(n + 19):nth-of-type(-n + 24),
+        .ball:nth-of-type(n + 55):nth-of-type(-n + 60),
+        .ball:nth-of-type(n + 91):nth-of-type(-n + 96),
+        .ball:nth-of-type(n + 127):nth-of-type(-n + 132),
+        .ball:nth-of-type(n + 163):nth-of-type(-n + 168),
+        .ball:nth-of-type(n + 199):nth-of-type(-n + 204) {
+            --j: 3
+        }
+
+        .ball:nth-of-type(n + 25):nth-of-type(-n + 30),
+        .ball:nth-of-type(n + 61):nth-of-type(-n + 66),
+        .ball:nth-of-type(n + 97):nth-of-type(-n + 102),
+        .ball:nth-of-type(n + 133):nth-of-type(-n + 138),
+        .ball:nth-of-type(n + 169):nth-of-type(-n + 174),
+        .ball:nth-of-type(n + 205):nth-of-type(-n + 210) {
+            --j: 4
+        }
+
+        .ball:nth-of-type(n + 31):nth-of-type(-n + 36),
+        .ball:nth-of-type(n + 67):nth-of-type(-n + 72),
+        .ball:nth-of-type(n + 103):nth-of-type(-n + 108),
+        .ball:nth-of-type(n + 139):nth-of-type(-n + 144),
+        .ball:nth-of-type(n + 175):nth-of-type(-n + 180),
+        .ball:nth-of-type(n + 211):nth-of-type(-n + 216) {
+            --j: 5
+        }
+
+        .ball:nth-of-type(6n + 1) {
+            --k: 0
+        }
+
+        .ball:nth-of-type(6n + 2) {
+            --k: 1
+        }
+
+        .ball:nth-of-type(6n + 3) {
+            --k: 2
+        }
+
+        .ball:nth-of-type(6n + 4) {
+            --k: 3
+        }
+
+        .ball:nth-of-type(6n + 5) {
+            --k: 4
+        }
+
+        .ball:nth-of-type(6n + 6) {
+            --k: 5
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div class="container">
+        <h1>Habit Haven</h1>
+        <p style="font-size: 1.4em;">Our App listens to your needs</p>
+        <p><span class="animated">literally...</span></p>
+
+    </div>
+
+    <div class="box">
+        <p style="font-size: 2rem; font-style: italic;">Habit Haven is not an ordinary habit app</p>
+        <p>Unlike others, Habit Haven offers to guide you in creating and
+            tracking habits, and helps you in making changes to these habits so they fit better to your life.
+        </p>
+    </div>
+    <div class="container first flex-row">
+        <div class="item">
+            <img src="insights.png" alt="">
+            <div style="display: flex; flex-direction: column;">
+                <h3>Insights</h3>
+                <p>Track your habit progress over the course of the last week, month and year. By working more on your
+                    habits you
+                    will help the tree grow and bloom. Find out which habits you have been focusing more on, and those
+                    who need more of your attention.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="box" style="background: black; flex-direction: row; justify-content: space-evenly;">
+        <p>Transform your life with your own words</p>
+        <div style="display: grid;">
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
+        </div>
+    </div>
+    <div class="container second flex-row">
+        <div class="item">
+            <img src="voice.png" alt="">
+            <div style="display: flex; flex-direction: column;">
+                <h3>Voice habit creation</h3>
+                <p>Get personalised habit recommendations by talking to our app about your life, schedule, and habits.
+                    Whether you want a more general habit or one that is more custom, our app will help you find it.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="box"></div>
+    <div class="container third flex-row">
+        <div class="item">
+            <img src="recommendation.png" alt="">
+            <div style="display: flex; flex-direction: column;">
+                <h3>Adjusting habits</h3>
+                <p>Our app will aid you in your habit journey by providing motivating tips and tricks. If it notices
+                    that you have been struggling with a habit, it will recommend altering that habit to make it
+                    more
+                    attainable. Or it will suggest making habits more challenging if your progress has been great so
+                    far. As we say: your life changes so your habits should too.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div style="font-weight: bold; font-size: large;min-height: unset;max-height: 10vh;" class="box">This is a
+        university project for a
+        FAKE
+        application.
+        We
+        make no claims of copyright on the names or
+        images.</div>
+</body>
+
+</html>
