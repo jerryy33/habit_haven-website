@@ -6,6 +6,7 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Habit Haven</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src="https://unpkg.com/@rive-app/canvas@2.9.1"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Text:wght@400;700&display=swap');
 
@@ -19,6 +20,7 @@
         body {
             font-family: 'Red Hat Text', sans-serif;
             margin: 0;
+            width: 100vw;
             overflow-x: hidden;
 
         }
@@ -37,7 +39,7 @@
 
         h3 {
             font-weight: 700;
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             margin-top: 1em;
             color: white;
         }
@@ -84,7 +86,7 @@
         }
 
         .box {
-            background: linear-gradient(0deg, rgba(91, 1, 36, 1) 0%, rgba(182, 3, 79, 1) 35%, rgba(164, 117, 165, 1) 100%);
+            background: black;
             font-size: 1rem;
             font-weight: bold;
             display: flex;
@@ -298,27 +300,7 @@
         <p><span class="animated">literally...</span></p>
 
     </div>
-
-    <div class="box">
-        <p style="font-size: 2rem; font-style: italic;">Habit Haven is not an ordinary habit app</p>
-        <p>Unlike others, Habit Haven offers to guide you in creating and
-            tracking habits, and helps you in making changes to these habits so they fit better to your life.
-        </p>
-    </div>
-    <div class="container first flex-row">
-        <div class="item">
-            <img src="insights.png" alt="">
-            <div style="display: flex; flex-direction: column;">
-                <h3>Insights</h3>
-                <p>Track your habit progress over the course of the last week, month and year. By working more on your
-                    habits you
-                    will help the tree grow and bloom. Find out which habits you have been focusing more on, and those
-                    who need more of your attention.
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="box" style="background: black; flex-direction: row; justify-content: space-evenly;">
+    <div class="box" style="flex-direction: row; justify-content: space-evenly;">
         <p>Transform your life with your own words</p>
         <div style="display: grid;">
             <div class="ball"></div>
@@ -550,7 +532,28 @@
             </div>
         </div>
     </div>
-    <div class="box"></div>
+    <div class="box" style="flex-direction: row; justify-content: space-evenly;">
+        <p>Visualize your progress like never before</p>
+        <canvas id="canvas" width="500" height="500"></canvas>
+    </div>
+    <div class="container first flex-row">
+        <div class="item">
+            <img src="insights.png" alt="">
+            <div style="display: flex; flex-direction: column;">
+                <h3>Insights</h3>
+                <p>Track your habit progress over the course of the last week, month and year. By working more on your
+                    habits you
+                    will help the tree grow and bloom. Find out which habits you have been focusing more on, and those
+                    who need more of your attention.
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="box" style="flex-direction: row; justify-content: space-evenly;">
+        <p>Never quit a habit ever again</p>
+    </div>
     <div class="container third flex-row">
         <div class="item">
             <img src="recommendation.png" alt="">
@@ -565,7 +568,9 @@
             </div>
         </div>
     </div>
-    <div style="font-weight: bold; font-size: large;min-height: unset;max-height: 10vh;" class="box">This is a
+    <div style="font-weight: bold;color: white; font-size: large;min-height: unset;max-height: 10vh;" class="box">
+        This
+        is a
         university project for a
         FAKE
         application.
@@ -573,5 +578,41 @@
         make no claims of copyright on the names or
         images.</div>
 </body>
+<script>
+    const canvasEl = document.querySelector("canvas");
+    const r = new rive.Rive({
+        src: "tree.riv",
+        canvas: document.getElementById("canvas"),
+        autoPlay: false,
+        stateMachines: "State Machine 1",
+        artboard: "New Artboard",
+        onLoad: () => {
+            console.log(r.contents);
+            const stateMachineInput = r.stateMachineInputs("State Machine 1")[0];
+            // Create an intersection observer instance to detect when canvas is in view
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach((entry) => {
+                    let id;
+                    let timeoutId;
+                    if (entry.isIntersecting) {
+                        console.log(stateMachineInput.value);
+                        console.log("play");
+                        r.play("State Machine 1");
+                        timeoutId = setTimeout(() => {
+                            id = setInterval(() => stateMachineInput.value < 100 ? stateMachineInput.value += 1 : null, 50)
+                        }, 1000);
+                    } else {
+                        clearInterval(id);
+                        clearTimeout(timeoutId);
+                        r.pause();
+                        stateMachineInput.value = 0;
+                    }
+                });
+            });
+
+            observer.observe(canvasEl);
+        }
+    });
+</script>
 
 </html>
